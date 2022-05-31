@@ -6,8 +6,10 @@ using UnityEngine.UI;
 public class PlayerController : MonoBehaviour
 {
     public GameObject gameOver;
+    public GameObject barreraPeligro;
     public float movementSpeed, jumpForce;
     public float rotatioSpeed;
+    public float velocidadBarrera;
     public Vector3 respawn = new Vector3(0,0.5f,0);
     Rigidbody rb;
     bool hasJump;
@@ -51,6 +53,10 @@ public class PlayerController : MonoBehaviour
             hasJump = false;
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
+        if(gameObject.transform.position != new Vector3 (4, 0.5f, 0))
+        {
+            barreraPeligro.transform.Translate(0, velocidadBarrera, 0);
+        }
 
     }
 
@@ -58,9 +64,8 @@ public class PlayerController : MonoBehaviour
 
     void OnCollisionEnter(Collision col)
     {
-       if (col.gameObject.tag == "DeathWall")
+       if (col.gameObject.name == "DeathWall")
        {
-            // transform.position = respawn;
             gameOver.SetActive(true);
             Destroy(gameObject);
        }
