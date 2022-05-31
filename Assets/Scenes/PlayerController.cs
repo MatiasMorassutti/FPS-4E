@@ -6,14 +6,17 @@ using UnityEngine.UI;
 public class PlayerController : MonoBehaviour
 {
     public GameObject gameOver;
-    public float movementSpeed;
+    public float movementSpeed, jumpForce;
     public float rotatioSpeed;
     public Vector3 respawn = new Vector3(0,0.5f,0);
+    Rigidbody rb;
+    bool hasJump;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        rb = GetComponent<Rigidbody>();
+        hasJump = true;
     }
 
     // Update is called once per frame
@@ -43,6 +46,11 @@ public class PlayerController : MonoBehaviour
         {
             transform.Rotate(0, rotatioSpeed, 0);
         }
+        if (Input.GetKeyDown(KeyCode.Space) && hasJump)
+        {
+            hasJump = false;
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        }
 
     }
 
@@ -55,7 +63,10 @@ public class PlayerController : MonoBehaviour
             // transform.position = respawn;
             gameOver.SetActive(true);
             Destroy(gameObject);
-            //hola
        }
+        if (col.gameObject.tag == "Ground")
+        {
+            hasJump = true;
+        }
     }
 }
