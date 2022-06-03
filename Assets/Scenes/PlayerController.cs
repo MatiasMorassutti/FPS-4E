@@ -8,13 +8,15 @@ public class PlayerController : MonoBehaviour
     public GameObject gameOver;
     public GameObject barreraPeligro;
     public GameObject Reintentar;
+    public GameObject camara;
     public float movementSpeed, jumpForce;
     public float rotatioSpeed;
     public float velocidadBarrera;
     public Vector3 respawn = new Vector3(0,0.5f,0);
-    Rigidbody rb;
     bool hasJump;
-    public GameObject camara;
+    Rigidbody rb;
+   
+    
 
     // Start is called before the first frame update
     void Start()
@@ -68,13 +70,15 @@ public class PlayerController : MonoBehaviour
 
     void OnCollisionEnter(Collision col)
     {
-       if (col.gameObject.name == "DeathWall")
-       {
+        Debug.Log("Toco");
+       if (col.gameObject.tag == "DeathWall")
+       {            
             camara.SetActive(true);
             gameOver.SetActive(true);
-            Destroy(gameObject);
             Reintentar.gameObject.SetActive(true);
-       }
+            Destroy(gameObject);
+
+        }
         if (col.gameObject.tag == "Ground")
         {
             hasJump = true;
