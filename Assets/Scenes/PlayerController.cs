@@ -7,18 +7,22 @@ public class PlayerController : MonoBehaviour
 {
     public GameObject gameOver;
     public GameObject barreraPeligro;
+    public GameObject Reintentar;
     public float movementSpeed, jumpForce;
     public float rotatioSpeed;
     public float velocidadBarrera;
     public Vector3 respawn = new Vector3(0,0.5f,0);
     Rigidbody rb;
     bool hasJump;
+    public GameObject camara;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         hasJump = true;
+        Reintentar.gameObject.SetActive(false);
+        camara.SetActive(false);
     }
 
     // Update is called once per frame
@@ -66,12 +70,19 @@ public class PlayerController : MonoBehaviour
     {
        if (col.gameObject.name == "DeathWall")
        {
+            camara.SetActive(true);
             gameOver.SetActive(true);
             Destroy(gameObject);
+            Reintentar.gameObject.SetActive(true);
        }
         if (col.gameObject.tag == "Ground")
         {
             hasJump = true;
+        }
+        if (col.gameObject.name == "Llegada Total")
+        {
+            transform.position = new Vector3(3.93f, 0.5f, 0);
+            barreraPeligro.transform.position = new Vector3(16.6f, 1.3f, 0);
         }
     }
 }
