@@ -4,7 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
-{
+{    
+bool hasJump;
+    Rigidbody rb;
     public GameObject gameOver;
     public GameObject barreraPeligro;
     public GameObject Reintentar;
@@ -12,11 +14,14 @@ public class PlayerController : MonoBehaviour
     public float movementSpeed, jumpForce;
     public float rotatioSpeed;
     public float velocidadBarrera;
+    public Text txtTime;
     public Vector3 respawn = new Vector3(0,0.5f,0);
-    bool hasJump;
-    Rigidbody rb;
-   
-    
+    public Button restart;
+    public Transform spawner;
+    public GameObject Bolita;
+
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -77,8 +82,9 @@ public class PlayerController : MonoBehaviour
             gameOver.SetActive(true);
             Reintentar.gameObject.SetActive(true);
             Destroy(gameObject);
+            //restart.SetActive(true);
 
-        }
+       }
         if (col.gameObject.tag == "Ground")
         {
             hasJump = true;
@@ -87,6 +93,14 @@ public class PlayerController : MonoBehaviour
         {
             transform.position = new Vector3(3.93f, 0.5f, 0);
             barreraPeligro.transform.position = new Vector3(16.6f, 1.3f, 0);
+
+            for (int i = 0; i < 10; i++)
+            {
+                GameObject BolitaClon = Instantiate(Bolita, spawner.transform.position, spawner.transform.rotation);
+                Destroy(BolitaClon, 2);
+            }
         }
+
     }
+
 }
